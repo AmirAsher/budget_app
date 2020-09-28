@@ -10,6 +10,7 @@ def init():
     cur = conn.cursor() # used to execute the sql queries on the db
     sql = '''
     CREATE TABLE IF NOT EXISTS expenses (
+        id INTEGER primary key autoincrement,
         amount INTEGER,
         category TEXT,
         message TEXT,
@@ -22,7 +23,7 @@ def init():
 
 # init()
 
-def log (amount, category, message=''):
+def log (amount, category, message='', id=None):
     '''
     logs the expenditure in the database.
     amount: number
@@ -30,11 +31,11 @@ def log (amount, category, message=''):
     message: (optional) string
     '''
     date = str(datetime.now())
-    data = (amount, category, message, date)
+    data = (id, amount, category, message, date)
     # conn = sqlite3.connect('spent.db')
     conn = db.connect('spent.db')
     cur = conn.cursor()
-    sql = 'INSERT INTO expenses VALUES (?, ?, ?, ?)'
+    sql = 'INSERT INTO expenses VALUES (?, ?, ?, ?, ?)'
     # sql = '''
     # insert into expenses values (
     #      {},
